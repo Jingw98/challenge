@@ -11,7 +11,21 @@ services:
       POSTGRES_PASSWORD: 123qwe!@#
       POSTGRES_DB: database
     volumes:
-      - pgdata:/var/lib/postgresql/data 
+      - pgdata:/var/lib/postgresql/data
+
+  api:
+    build:
+      context: . # Build the API from the current directory
+      dockerfile: Dockerfile
+    container_name: nest-api
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://jing:123qwe%21%40%23@localhost:5432/database
+    volumes:
+      - .:/usr/src/api 
 
 volumes:
   pgdata:
