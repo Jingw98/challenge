@@ -1,0 +1,57 @@
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import { CreateScheduleDto } from './dto/create-schedule.dto';
+import { Schedule } from '@prisma/client';
+import { UpdateScheduleDto } from './dto/update-schedule.dto';
+import { isPrismaError } from 'src/utils/prisma.utils';
+import { PrismaErrorCode } from 'src/utils/prisma-error-codes.enum';
+
+@Injectable()
+export class ScheduleService {
+    constructor(private prisma: PrismaService) { }
+
+    async getAllSchedules(limit: number = 10) {
+        return this.prisma.schedule.findMany({
+            take: limit,
+        });
+    }
+
+    async getScheduleById(id: string, includeTask: boolean = false): Promise<Schedule> {
+        return this.prisma.schedule.findUnique({
+            where: { id },
+            include: { tasks: includeTask },
+        });
+    }
+
+    async createSchedule(data: CreateScheduleDto): Promise<Schedule> {
+        return this.prisma.schedule.create({ data });
+    }
+
+
+    async updateSchedule(id: string, data: UpdateScheduleDto) {
+        try {
+            return await this.prisma.schedule.update({
+                where: { id },
+                data,
+            });
+        } catch (error) {
+            if (isPrismaError(error, PrismaErrorCode.RecordNotFound)) {
+                throw new NotFoundException(`Schedule with ID ${id} not found`);
+            }
+            throw error;
+        }
+    }
+
+    async deleteSchedule(id: string) {
+        try {
+            return await this.prisma.schedule.delete({
+                where: { id },
+            });
+        } catch (error) {
+            if (isPrismaError(error, PrismaErrorCode.RecordNotFound)) {
+                throw new NotFoundException(`Schedule with ID ${id} not found`);
+            }
+            throw error;
+        }
+    }
+}
