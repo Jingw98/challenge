@@ -5,9 +5,10 @@ import { ScheduleService } from './schedule/schedule.service';
 import { TaskService } from './task/task.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { ScheduleModule } from './schedule/schedule.module';
+import { TaskModule } from './task/task.module';
 
 @Module({
-  imports: [ScheduleModule, PrismaModule],
+  imports: [ScheduleModule, PrismaModule, TaskModule],
   controllers: [AppController],
   providers: [AppService, ScheduleService, TaskService],
 })
