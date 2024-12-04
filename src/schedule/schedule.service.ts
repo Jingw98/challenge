@@ -10,7 +10,7 @@ import { PrismaErrorCode } from 'src/utils/prisma-error-codes.enum';
 export class ScheduleService {
     constructor(private prisma: PrismaService) { }
 
-    async getAllSchedules(limit) {
+    async getAllSchedules(limit): Promise<Schedule[]> {
         return this.prisma.schedule.findMany({
             take: limit,
         });
@@ -28,7 +28,7 @@ export class ScheduleService {
     }
 
 
-    async updateSchedule(id: string, data: UpdateScheduleDto) {
+    async updateSchedule(id: string, data: UpdateScheduleDto): Promise<Schedule> {
         try {
             return await this.prisma.schedule.update({
                 where: { id },
@@ -42,7 +42,7 @@ export class ScheduleService {
         }
     }
 
-    async deleteSchedule(id: string) {
+    async deleteSchedule(id: string): Promise<Schedule> {
         try {
             return await this.prisma.schedule.delete({
                 where: { id },
