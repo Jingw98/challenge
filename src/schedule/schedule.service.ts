@@ -10,7 +10,7 @@ import { PrismaErrorCode } from 'src/utils/prisma-error-codes.enum';
 export class ScheduleService {
     constructor(private prisma: PrismaService) { }
 
-    async getAllSchedules(limit: number = 10) {
+    async getAllSchedules(limit) {
         return this.prisma.schedule.findMany({
             take: limit,
         });

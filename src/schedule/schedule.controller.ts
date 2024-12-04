@@ -8,7 +8,7 @@ export class ScheduleController {
     constructor(private readonly scheduleService: ScheduleService) { }
 
     @Get()
-    async getAllSchedules(@Query('limit') limit?: number) {
+    async getAllSchedules(@Query('limit') limit: number = 10) {
         return this.scheduleService.getAllSchedules(Number(limit));
     }
 
