@@ -17,10 +17,15 @@ export class ScheduleService {
     }
 
     async getScheduleById(id: string, includeTask: boolean = false): Promise<Schedule> {
-        return this.prisma.schedule.findUnique({
+        const schedule = await this.prisma.schedule.findUnique({
             where: { id },
             include: { tasks: includeTask },
         });
+
+        if (!schedule) {
+            throw new NotFoundException(`Schedule with ID ${id} not found`);
+        }
+        return schedule;
     }
 
     async createSchedule(data: CreateScheduleDto): Promise<Schedule> {
