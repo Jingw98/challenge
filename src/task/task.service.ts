@@ -3,8 +3,8 @@ import { PrismaService } from '../prisma/prisma.service';
 import { Task } from '@prisma/client';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import { isPrismaError } from 'src/utils/prisma.utils';
-import { PrismaErrorCode } from 'src/utils/prisma-error-codes.enum';
+import { isPrismaError } from '../utils/prisma.utils';
+import { PrismaErrorCode } from '../utils/prisma-error-codes.enum';
 
 @Injectable()
 export class TaskService {
@@ -17,7 +17,7 @@ export class TaskService {
   }
 
   async getTaskById(id: string, includeSchedule: boolean = false): Promise<Task> {
-    const task = this.prisma.task.findUnique({
+    const task = await this.prisma.task.findUnique({
       where: { id },
       include: { schedule: includeSchedule },
     });
@@ -36,7 +36,7 @@ export class TaskService {
 
   async updateTask(id: string, data: UpdateTaskDto): Promise<Task> {
     try {
-      return this.prisma.task.update({
+      return await this.prisma.task.update({
         where: { id },
         data,
       });
@@ -50,7 +50,7 @@ export class TaskService {
 
   async deleteTask(id: string): Promise<Task> {
     try {
-      return this.prisma.task.delete({
+      return await this.prisma.task.delete({
         where: { id },
       });
     } catch (error) {

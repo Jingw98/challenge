@@ -3,8 +3,8 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateScheduleDto } from './dto/create-schedule.dto';
 import { Schedule } from '@prisma/client';
 import { UpdateScheduleDto } from './dto/update-schedule.dto';
-import { isPrismaError } from 'src/utils/prisma.utils';
-import { PrismaErrorCode } from 'src/utils/prisma-error-codes.enum';
+import { isPrismaError } from '../utils/prisma.utils';
+import { PrismaErrorCode } from '../utils/prisma-error-codes.enum';
 
 @Injectable()
 export class ScheduleService {
