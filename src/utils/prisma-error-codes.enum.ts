@@ -1,3 +1,3 @@
 export enum PrismaErrorCode {
-    RecordNotFound = 'P2025',
+  RecordNotFound = 'P2025',
 }

@@ -8,15 +8,18 @@ import { PrismaErrorCode } from '../utils/prisma-error-codes.enum';
 
 @Injectable()
 export class TaskService {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   async getAllTasks(limit: number): Promise<Task[]> {
-    return this.prisma.task.findMany({
+    return await this.prisma.task.findMany({
       take: limit,
     });
   }
 
-  async getTaskById(id: string, includeSchedule: boolean = false): Promise<Task> {
+  async getTaskById(
+    id: string,
+    includeSchedule: boolean = false,
+  ): Promise<Task> {
     const task = await this.prisma.task.findUnique({
       where: { id },
       include: { schedule: includeSchedule },
@@ -29,7 +32,7 @@ export class TaskService {
   }
 
   async createTask(data: CreateTaskDto): Promise<Task> {
-    return this.prisma.task.create({
+    return await this.prisma.task.create({
       data,
     });
   }

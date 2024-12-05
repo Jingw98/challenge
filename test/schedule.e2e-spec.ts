@@ -20,7 +20,7 @@ describe('ScheduleController (e2e)', () => {
   });
 
   afterAll(async () => {
-     await prisma.schedule.deleteMany({
+    await prisma.schedule.deleteMany({
       where: { account_id: 999999 },
     });
     await app.close();
@@ -31,23 +31,22 @@ describe('ScheduleController (e2e)', () => {
       where: { account_id: 999999 },
     });
   });
-  const start_time = new Date().toISOString()
-  const end_time = new Date().toISOString()
-
+  const start_time = new Date().toISOString();
+  const end_time = new Date().toISOString();
 
   const mockSchedule1 = {
     account_id: 999999,
     agent_id: 123,
     start_time,
-    end_time
-  }
+    end_time,
+  };
 
   const mockSchedule2 = {
     account_id: 999999,
     agent_id: 123,
     start_time,
-    end_time
-  }
+    end_time,
+  };
   describe('/schedules (GET)', () => {
     it('should return all schedules', async () => {
       await prisma.schedule.createMany({
@@ -77,9 +76,7 @@ describe('ScheduleController (e2e)', () => {
         .get(`/schedules/${schedule.id}`)
         .expect(200);
 
-      expect(response.body).toMatchObject(
-        mockSchedule1
-      );
+      expect(response.body).toMatchObject(mockSchedule1);
     });
 
     it('should return 404 if the schedule does not exist', async () => {
